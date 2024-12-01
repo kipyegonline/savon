@@ -23,7 +23,10 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@/config": ["./config/*"],
+      "@/components": ["./components/*"],
+      "@/api": ["./api"]
     },
 
     // Vite takes care of building everything, not tsc.
