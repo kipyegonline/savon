@@ -7,8 +7,11 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
-import "./tailwind.css";
 import AppProviders from "Providers";
+import Footer from "components/Footer";
+import "./tailwind.css";
+import "@mantine/core/styles.css";
+import "typeface-poppins";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -30,10 +33,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+
         <Links />
       </head>
       <body className="min-h-screen antialiased">
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          {children}
+          <Footer />
+        </AppProviders>
 
         <ScrollRestoration />
         <Scripts />

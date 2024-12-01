@@ -1,8 +1,8 @@
 export default {
   light: {
     primary: "#f2f2f2",
-    secondary: "##e0e0e0",
-    accent: "##ff9800",
+    secondary: "#e0e0e0",
+    accent: "#ff9800",
   },
   dark: {
     // sio necessaary for now
