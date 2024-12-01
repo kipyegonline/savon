@@ -24,7 +24,7 @@ export default function Index() {
       >
         <Container className="" size="lg" pb="lg">
           {/**nav bar */}
-          <NavBar />
+          <NavBar isHome />
 
           {/**Hero */}
           <Hero />

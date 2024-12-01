@@ -1,8 +1,13 @@
 import { Button, Flex, Box, Title } from "@mantine/core";
 
 import SavonLogo from "./logo";
+import { useNavigate } from "@remix-run/react";
 
-export default function NavBar() {
+export default function NavBar({ isHome = false }: { isHome: boolean }) {
+  const navigate = useNavigate();
+  const handlelogin = () => {
+    navigate("/signup");
+  };
   return (
     <header className=" ">
       <Flex
@@ -12,22 +17,24 @@ export default function NavBar() {
         // direction={{ base: "column", md: "row" }}
       >
         <Box
-          className="flex  items-center gap-4 pr-2 "
-          style={{ background: "rgba(0,0,0,.5)" }}
+          className="flex  items-center gap-4 pr-2  "
+          style={{ background: isHome ? "rgba(0,0,0,.5)" : "none" }}
         >
           <Box>
             <SavonLogo />
           </Box>
 
-          <Title order={1} c="white">
+          <Title order={1} c={isHome ? "white" : "#bbb"}>
             Savon
           </Title>
         </Box>
-        <Box className=" o">
-          <Button className=" rounded-2xl " px="lg">
-            Sign in
-          </Button>
-        </Box>
+        {isHome ? (
+          <Box className=" o">
+            <Button className=" rounded-2xl " px="lg" onClick={handlelogin}>
+              Sign in
+            </Button>
+          </Box>
+        ) : null}
       </Flex>
     </header>
   );
