@@ -110,7 +110,7 @@ export default function SavonLogin() {
       <NavBar isHome={false} />
       <Box className="flex flex-col items-center justify-center">
         <Box
-          className="mx-auto p-8 md:p-16 border-red "
+          className="mx-auto p-8 md:p-16 "
           mt="lg"
           maw={{ base: "100%", md: 380 }}
         >

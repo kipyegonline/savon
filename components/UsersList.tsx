@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
 import Colors from "config/Colors";
-import { User } from "lucide-react";
+import { ExternalLink, User } from "lucide-react";
 
 import { User as IUser } from "types";
 
@@ -39,8 +39,8 @@ export const Userstable = ({
       <Table.Thead>
         <Table.Tr>
           <Table.Th>#</Table.Th>
-          <Table.Th>Users</Table.Th>
-          <Table.Th>Click to view albums</Table.Th>
+          <Table.Th>User</Table.Th>
+          <Table.Th> albums</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -54,7 +54,15 @@ export const Userstable = ({
             <Table.Td>{i + 1}.</Table.Td>
             <Table.Td>
               {" "}
-              <Link to={`/users/${user.id}`}>{user.username}</Link>{" "}
+              <Link
+                to={`/users/${user.id}`}
+                target="_blank"
+                className="text-blue-700 capitalize text-base"
+                rel="noreferrer"
+              >
+                {user.username}{" "}
+                <ExternalLink size={14} className="inline-block" />
+              </Link>{" "}
             </Table.Td>
             <Table.Td>
               <Button onClick={() => clickedUser(user.id)}>See albums</Button>

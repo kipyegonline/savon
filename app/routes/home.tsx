@@ -41,9 +41,9 @@ export default function Home() {
   const handleClickedUser = (id: number) => {
     setId(id);
   };
-
+  const loggedIn = id === user?.user?.id;
   return (
-    <Container className="min-h-screen" size="lg">
+    <Container className="min-h-screen bg-secondary" size="lg">
       <NavBar isHome />
       <NotLoggedIn />
       <Grid mt="lg" align="center">
@@ -78,16 +78,14 @@ export default function Home() {
             {/**whene there no users */}
             {Array.isArray(albums) && albums.length === 0 && (
               <Title order={5}>
-                {id === user?.user?.id
-                  ? "add albums above"
-                  : "No albums found."}{" "}
+                {loggedIn ? "add albums above" : "No albums found."}{" "}
               </Title>
             )}
           </Center>
 
           <Center>
             {Array.isArray(albums) && albums.length > 0 && (
-              <AlbumsList albums={albums} />
+              <AlbumsList albums={albums} iam={loggedIn} />
             )}
           </Center>
         </Grid.Col>

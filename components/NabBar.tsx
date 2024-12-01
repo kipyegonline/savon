@@ -1,4 +1,4 @@
-import { Button, Flex, Box, Title, Avatar } from "@mantine/core";
+import { Button, Flex, Box, Title, Avatar, ActionIcon } from "@mantine/core";
 
 import SavonLogo from "./logo";
 import { useNavigate } from "@remix-run/react";
@@ -6,6 +6,8 @@ import { useAppContext } from "Providers/appProvider";
 import { useMutation } from "@tanstack/react-query";
 import { BASE_URL, submitPayload } from "config";
 import React from "react";
+import { LogOut } from "lucide-react";
+import Colors from "config/Colors";
 
 export default function NavBar({ isHome = false }: { isHome: boolean }) {
   const { user } = useAppContext();
@@ -43,7 +45,21 @@ export default function NavBar({ isHome = false }: { isHome: boolean }) {
   );
 }
 const UserAvatar = ({ name }: { name: string }) => {
-  return <Avatar name={name} color="initials" size="lg" />;
+  const { _removerUser } = useAppContext();
+  const logOut = () => {
+    if (confirm("Log out")) {
+      _removerUser();
+      location.pathname = "/login";
+    }
+  };
+  return (
+    <Box className="flex items-center gap-2">
+      <Avatar name={name} color="initials" size="lg" />
+      <ActionIcon onClick={logOut}>
+        <LogOut color={Colors.light.secondary} />
+      </ActionIcon>
+    </Box>
+  );
 };
 
 const LoginButton = () => {
