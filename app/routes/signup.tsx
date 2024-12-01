@@ -6,12 +6,19 @@ import {
   Flex,
   PasswordInput,
   Text,
+  Card,
 } from "@mantine/core";
+
 import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import NavBar from "components/NabBar";
-import { Link2Off } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useForm, isEmail } from "@mantine/form";
+import { BASE_URL, submitPayload } from "config";
+import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { SavonNotification } from "components/notification";
+import VisibilityIcon from "components/VisibilityIcon";
 
 type FormValues = {
   email: string;
@@ -26,11 +33,37 @@ export const meta: MetaFunction = () => {
     },
     {
       name: "description",
-      content: ` savon | Begin your venture into world of photographs`,
+      content: ` Savon | Begin your venture into world of photographs`,
     },
   ];
 };
+
+const defaultState = { success: "", error: "" };
+
 export default function SavonLogin() {
+  const url = BASE_URL + "/users";
+
+  const [show, setShow] = React.useState(false); // when a suser wants to see their password on inoput
+  const [status, setStatus] = React.useState(defaultState); // ui feedback
+
+  const navigate = useNavigate();
+  // do the actual sign up
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: async (values: FormValues) => await submitPayload(url, values),
+    onSuccess: () => {
+      setStatus({ ...status, success: "account created successfully" });
+      setTimeout(() => {
+        setStatus(defaultState), navigate("/login");
+      }, 3000);
+      form.reset(), form.clearErrors();
+    },
+    onError: () => {
+      setStatus({ ...status, error: "something went wrong" });
+      setTimeout(() => setStatus(defaultState), 3000);
+    },
+  });
+
+  // build the form
   const form = useForm<FormValues>({
     mode: "uncontrolled",
     initialValues: {
@@ -54,23 +87,28 @@ export default function SavonLogin() {
         value.trim() !== values.password ? "Passwords do not match" : null,
     },
   });
-  const handleSubmit = (values: FormValues) => {
+
+  const handleSubmit = async (values: FormValues) => {
     if (form.isValid()) {
-      alert("send to server...");
+      mutate(values);
     }
   };
+
   return (
     <Container size="lg" className="min-h-screen">
       <NavBar isHome={false} />
-      <Box
-        className="mx-auto p-8  border-red"
+      <Card
+        className="mx-auto p-8   bg-white"
         mt="lg"
         maw={{ base: "100%", md: 380 }}
+        shadow="lg"
+        withBorder
       >
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <Text py="md" fw="bold">
-            Create Savon Account
+            Create Savon account
           </Text>
+
           <Flex direction="column" rowGap={"md"}>
             <TextInput
               withAsterisk
@@ -87,8 +125,13 @@ export default function SavonLogin() {
               {...form.getInputProps("email")}
             />
             <PasswordInput
-              visible={false}
-              visibilityToggleIcon={() => null}
+              visible={show}
+              visibilityToggleIcon={() => (
+                <VisibilityIcon
+                  show={show}
+                  setShow={() => setShow((prev) => !prev)}
+                />
+              )}
               withAsterisk
               label="Password"
               placeholder="Enter password"
@@ -96,8 +139,13 @@ export default function SavonLogin() {
               {...form.getInputProps("password")}
             />
             <PasswordInput
-              visible={false}
-              visibilityToggleIcon={() => null}
+              visible={show}
+              visibilityToggleIcon={() => (
+                <VisibilityIcon
+                  show={show}
+                  setShow={() => setShow((prev) => !prev)}
+                />
+              )}
               withAsterisk
               label="Password confirmation"
               placeholder="Enter password confirmation"
@@ -105,18 +153,33 @@ export default function SavonLogin() {
               {...form.getInputProps("password_confirmation")}
             />
 
-            <Button fullWidth c="white" className="text-white" type="submit">
-              Sign up
+            <Button
+              fullWidth
+              c="white"
+              className="text-white"
+              type="submit"
+              loading={isLoading}
+            >
+              {isLoading ? "Submitting" : "Sign up"}
             </Button>
+
+            {/** show user notifications */}
+            {status.success && (
+              <SavonNotification success={true} message={status.success} />
+            )}
+            {status.error && (
+              <SavonNotification success={true} message={status.error} />
+            )}
           </Flex>
-          <Box className="pt-4">
+          <Box className="pt-4 flex items-center gap-2">
             {" "}
-            <Link className="text-blue-500 pt-2 text-center" to="/login">
-              Already have an account? <Link2Off className="ml-2" />
-            </Link>
+            <Link className="text-blue-600 pt-2 text-center" to="/login">
+              Already have an account?
+            </Link>{" "}
+            <ExternalLink className="ml-2 text-blue-600" size={18} />
           </Box>
         </form>
-      </Box>
+      </Card>
     </Container>
   );
 }

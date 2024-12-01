@@ -1,17 +1,22 @@
+import React from "react";
 import {
   Container,
   Box,
   Flex,
   Button,
-  Text,
+  Title,
   TextInput,
   PasswordInput,
 } from "@mantine/core";
 import { useForm, isEmail } from "@mantine/form";
 import type { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import NavBar from "components/NabBar";
-import { LinkIcon } from "lucide-react";
+import { ExternalLinkIcon } from "lucide-react";
+import VisibilityIcon from "components/VisibilityIcon";
+import { useMutation } from "@tanstack/react-query";
+import { BASE_URL, submitPayload } from "config";
+import { SavonNotification } from "components/notification";
 export const meta: MetaFunction = () => {
   return [
     {
@@ -24,8 +29,15 @@ export const meta: MetaFunction = () => {
   ];
 };
 type LoginValues = { email: string; password: string };
+
+const defaultState = { success: "", error: "" };
 export default function SavonLogin() {
-  const [loading, setLoading] = React.useState(false);
+  const [show, setShow] = React.useState(false);
+  const [status, setStatus] = React.useState(defaultState);
+  const url = BASE_URL + "/login";
+  const navigate = useNavigate();
+
+  // tunajenga form na hii method
   const form = useForm<LoginValues>({
     mode: "uncontrolled",
     initialValues: {
@@ -41,24 +53,61 @@ export default function SavonLogin() {
           : null,
     },
   });
-  const handleSubmit = (values: FormValues) => {
+  // tutatumia hii kusend payload kwa api
+
+  const {
+    mutate,
+    isPending: isLoading,
+
+    data,
+  } = useMutation({
+    mutationFn: async (values: LoginValues) => await submitPayload(url, values),
+    onSuccess: () => {
+      setStatus({ ...status, success: "account created successfully" });
+      setTimeout(() => {
+        setStatus(defaultState), navigate("/login");
+      }, 3000);
+      form.reset(), form.clearErrors();
+    },
+    onError: () => {
+      setStatus({ ...status, error: "something went wrong" });
+      setTimeout(() => setStatus(defaultState), 3000);
+    },
+  });
+
+  const handleSubmit = (values: LoginValues) => {
     if (form.isValid()) {
-      alert("send to server...");
+      mutate(values);
     }
   };
+
+  React.useEffect(() => {
+    // WE LISTEN FOR DATA CHANGES, NIMECHOKA MAHN
+    if (data) {
+      if ("message" in data) {
+        setStatus({ ...status, error: data.message });
+        setTimeout(() => setStatus(defaultState), 3000);
+      } else {
+        // SEND TO APP CONTEXT
+      }
+    }
+  }, [data]);
   return (
     <Container size="lg" className="min-h-screen">
       <NavBar isHome={false} />
       <Box className="flex flex-col items-center justify-center">
         <Box
-          className="mx-auto p-8 md:p-20 border-red "
+          className="mx-auto p-8 md:p-16 border-red "
           mt="lg"
           maw={{ base: "100%", md: 380 }}
         >
           <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-            <Text py="md" fw="bold">
-              Create a Savon Account
-            </Text>
+            <Title order={3} py="md">
+              Welcome back
+            </Title>
+            <Box mb="md">
+              <img src="/logo-light.png" alt="" />
+            </Box>
             <Flex direction="column" rowGap={"md"}>
               <TextInput
                 withAsterisk
@@ -68,20 +117,44 @@ export default function SavonLogin() {
                 {...form.getInputProps("email")}
               />
               <PasswordInput
-                visible={false}
-                visibilityToggleIcon={() => null}
+                visible={show}
+                visibilityToggleIcon={() => (
+                  <VisibilityIcon
+                    show={show}
+                    setShow={() => setShow((prev) => !prev)}
+                  />
+                )}
                 withAsterisk
                 label="Password"
                 placeholder="Enter password"
                 key={form.key("password")}
                 {...form.getInputProps("password")}
               />
-              <Button fullWidth>Login</Button>
+              <Button fullWidth loading={isLoading} type="submit">
+                Login
+              </Button>
+
+              {/** show user notifications */}
+              {status.success && (
+                <SavonNotification
+                  success={true}
+                  message={"login successfull"}
+                />
+              )}
+              {status.error && (
+                <SavonNotification
+                  success={true}
+                  message={
+                    "Someething went wrong while logging you in, try again later..."
+                  }
+                />
+              )}
             </Flex>
 
             <Box py="md">
               <Link className="text-blue-500 pt-2 text-center" to="/signup">
-                {"Don't have  an account? "} <LinkIcon className="ml-2" />
+                {"Don't have  an account? "}{" "}
+                <ExternalLinkIcon size={18} className="ml-2" />
               </Link>
             </Box>
           </form>
