@@ -6,9 +6,9 @@ export function SavonNotification({ message, success }: Props) {
   return (
     <Notification
       title={success ? "Succcess" : "Error"}
-      color={Colors.light.accent}
+      color={success ? Colors.light.accent : "red"}
     >
-      {success ? message : "Something went wrong, try again later"}
+      {message}
     </Notification>
   );
 }

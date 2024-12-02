@@ -16,7 +16,11 @@ const client = new QueryClient();
 const theme = createTheme({
   fontFamily: "'Poppins'",
   primaryColor: "savon",
-  colors: { savon: generateColors(Colors.light.primary) },
+  colors: {
+    savon: generateColors(Colors.light.primary),
+    accent: generateColors(Colors.light.accent),
+    secondary: generateColors(Colors.light.secondary),
+  },
   headings: { fontFamily: "'Poppins'" },
 });
 

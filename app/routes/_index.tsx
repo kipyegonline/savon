@@ -2,10 +2,11 @@ import { BackgroundImage, Container } from "@mantine/core";
 
 import type { MetaFunction } from "@remix-run/node";
 import ActionCards from "components/ActionCards";
+import CTA from "components/CTA";
 import Hero from "components/hero";
 import NavBar from "components/NabBar";
 import data from "config/data";
-import { useAppContext } from "Providers/appProvider";
+
 import React from "react";
 
 export const meta: MetaFunction = () => {
@@ -18,12 +19,10 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { user } = useAppContext();
+  //const { user } = useAppContext();
   //const navigate = useNavigate();
 
-  React.useEffect(() => {
-    if (user) location.pathname = "/home";
-  }, []);
+  React.useEffect(() => {}, []);
   return (
     <>
       <BackgroundImage
@@ -38,6 +37,8 @@ export default function Index() {
           <Hero />
           {/**Action cards */}
           <ActionCards />
+          {/**Call to Actions */}
+          <CTA />
           {/**Footer */}
         </Container>
       </BackgroundImage>

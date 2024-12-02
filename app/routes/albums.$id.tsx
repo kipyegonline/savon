@@ -12,7 +12,9 @@ import NavBar from "components/NabBar";
 import NotLoggedIn from "components/NotLoggedIn";
 import UserPhotos from "components/UIserPhotos";
 import { BASE_URL } from "config";
+import { useAppContext } from "Providers/appProvider";
 import React from "react";
+import { Album } from "types";
 export const meta: MetaFunction = () => {
   return [
     {
@@ -27,8 +29,19 @@ export const meta: MetaFunction = () => {
 export default function AlbumPage() {
   const [showModal, setShow] = React.useState(false);
   const { id } = useParams();
+  const { user } = useAppContext();
 
-  // get users albums photos
+  // get the album itself
+  const { data: album } = useQuery({
+    queryKey: ["album", id],
+    queryFn: (id) => {
+      console.log(id, "sheveve");
+      const { queryKey } = id;
+      const photoUrl = BASE_URL + `/albums?album=${queryKey[1]}`;
+      return fetchPayload(photoUrl);
+    },
+  });
+  // get  photos inside the album
 
   const {
     data: photos,
@@ -44,6 +57,18 @@ export default function AlbumPage() {
       return fetchPayload(photoUrl);
     },
   });
+
+  const { data: albumUser } = useQuery({
+    queryKey: ["user", album?.user_id],
+    queryFn: (id) => {
+      const { queryKey } = id;
+
+      const photoUrl = BASE_URL + `/users/${queryKey[1]}`;
+      return fetchPayload(photoUrl);
+    },
+  });
+
+  // get the user who owns the album
   const handleModalClosure = () => {
     refetch();
 
@@ -66,12 +91,9 @@ export default function AlbumPage() {
         <SavonBreadCrumb
           breadcrumbs={[{ url: "/home", link: "Return Home" }]}
         />
-        <Button
-          className="!bg-accent !text-white"
-          onClick={() => setShow(true)}
-        >
-          Add Image
-        </Button>
+        {album && (
+          <AddImageComponent album={album} setShow={() => setShow(true)} />
+        )}
       </Flex>
 
       <NotLoggedIn />
@@ -85,14 +107,49 @@ export default function AlbumPage() {
         {/**whene there no users */}
         {Array.isArray(photos) && photos.length === 0 && (
           <Title order={5}>
-            There are no photos on the system for the selected album{" "}
+            There are no photos on the system for the selected {album?.title}{" "}
+            album{" "}
+            {albumUser
+              ? `by ${
+                  user?.user?.id == albumUser?.id ? "you" : albumUser?.username
+                }`
+              : ""}
           </Title>
         )}
 
         {Array.isArray(photos) && photos.length > 0 && (
-          <UserPhotos photos={photos} />
+          <Box>
+            <p className="py-3 text-xl">
+              {photos.length} {photos.length === 1 ? "picture" : "pictures"} on
+              {"  "}
+              {album?.title} album{" "}
+              {albumUser
+                ? `by ${
+                    user?.user?.id == albumUser?.id
+                      ? "you"
+                      : albumUser?.username
+                  }`
+                : ""}
+            </p>
+            <UserPhotos photos={photos} album={album} />
+          </Box>
         )}
       </Box>
     </Container>
   );
 }
+const AddImageComponent = ({
+  album,
+  setShow,
+}: {
+  album: Album;
+  setShow: () => void;
+}) => {
+  const { user } = useAppContext();
+  if (user?.user?.id !== album.user_id) return null;
+  return (
+    <Button className="!bg-accent !text-white" onClick={setShow}>
+      Add Image
+    </Button>
+  );
+};

@@ -18,7 +18,7 @@ export default function NavBar({ isHome = false }: { isHome: boolean }) {
         align="center"
         justify={"space-between"}
         pt="sm"
-        direction={{ base: "column", md: "row" }}
+        direction={{ base: user ? "column" : "row", md: "row" }}
       >
         <Box
           className="flex  items-center gap-4 pr-2  "
@@ -70,9 +70,15 @@ const LoginButton = () => {
   };
   return (
     <Box className=" o">
-      <Button className=" rounded-2xl " px="lg" onClick={handlelogin}>
-        Sign up
-      </Button>
+
+      <Button
+        bg="accent"
+        className=" rounded-2xl w-40 h-28 "
+        px="lg"
+        onClick={handlelogin}
+      >
+        Sign in
+</Button>
     </Box>
   );
 };
