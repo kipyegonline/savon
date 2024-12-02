@@ -17,6 +17,8 @@ import VisibilityIcon from "components/VisibilityIcon";
 import { useMutation } from "@tanstack/react-query";
 import { BASE_URL, submitPayload } from "config";
 import { SavonNotification } from "components/notification";
+import { useAppContext } from "Providers/appProvider";
+import { IUser } from "types";
 export const meta: MetaFunction = () => {
   return [
     {
@@ -36,6 +38,7 @@ export default function SavonLogin() {
   const [status, setStatus] = React.useState(defaultState);
   const url = BASE_URL + "/login";
   const navigate = useNavigate();
+  const { _setUser, user } = useAppContext();
 
   // tunajenga form na hii method
   const form = useForm<LoginValues>({
@@ -65,7 +68,7 @@ export default function SavonLogin() {
     onSuccess: () => {
       setStatus({ ...status, success: "account created successfully" });
       setTimeout(() => {
-        setStatus(defaultState), navigate("/login");
+        setStatus(defaultState);
       }, 3000);
       form.reset(), form.clearErrors();
     },
@@ -82,6 +85,14 @@ export default function SavonLogin() {
   };
 
   React.useEffect(() => {
+    //no need to log in if logged in
+
+    if (user) {
+      location.pathname = "/home";
+      return;
+    }
+  }, []);
+  React.useEffect(() => {
     // WE LISTEN FOR DATA CHANGES, NIMECHOKA MAHN
     if (data) {
       if ("message" in data) {
@@ -89,6 +100,8 @@ export default function SavonLogin() {
         setTimeout(() => setStatus(defaultState), 3000);
       } else {
         // SEND TO APP CONTEXT
+        _setUser(data as IUser);
+        navigate("/home");
       }
     }
   }, [data]);
@@ -97,7 +110,7 @@ export default function SavonLogin() {
       <NavBar isHome={false} />
       <Box className="flex flex-col items-center justify-center">
         <Box
-          className="mx-auto p-8 md:p-16 border-red "
+          className="mx-auto p-8 md:p-16 "
           mt="lg"
           maw={{ base: "100%", md: 380 }}
         >
