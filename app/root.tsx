@@ -12,6 +12,7 @@ import Footer from "components/Footer";
 import "./tailwind.css";
 import "@mantine/core/styles.css";
 import "typeface-poppins";
+import "../Providers/sentry.js";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,7 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         <Links />
       </head>
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen antialiased bg-secondary">
         <AppProviders>
           {children}
           <Footer />
