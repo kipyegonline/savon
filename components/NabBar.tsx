@@ -77,7 +77,7 @@ const LoginButton = () => {
         px="lg"
         onClick={handlelogin}
       >
-        Sign in
+        Sign up
 </Button>
     </Box>
   );
