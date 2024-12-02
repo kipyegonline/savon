@@ -1,10 +1,18 @@
-# Welcome to Remix!
+# Welcome toSavon
 
-- 📖 [Remix docs](https://remix.run/docs)
+This is a sleek open source photo sharing and repository for photography enthusiast around Kenya. It is the next big thing embedded with AI.
+
+The frontend can be accessed at [Savon frontend](https://savon-one.vercel.app/) and the REST API available at [Savon](savon.finwit.co/api)
+
+## Getting started
+
+Clone the project from Github
+
+`git clone https://github.com/kipyegonline/savon`
 
 ## Development
 
-Run the dev server:
+Checkout to the development branch and Run the dev server:
 
 ```shellscript
 npm run dev
@@ -12,29 +20,52 @@ npm run dev
 
 ## Deployment
 
-First, build your app for production:
+You can can build your app for production then deploy its build to a static server:
 
 ```sh
 npm run build
 ```
 
-Then run the app in production mode:
+## Or
 
-```sh
-npm start
-```
+Deploy to hosting services such as vercel, heroku or netlify uising git and github sing CI.DC and github.
 
-Now you'll need to pick a host to deploy it to.
+## Branches
 
-### DIY
+1. `Main` branch is the production branch
+2. `Staging` is the development and testing branch
+3. `Feature` branches can be created and pull requests made to the staging branch
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+### Issues
 
-Make sure to deploy the output of `npm run build`
+Report bug and issues to [issues section](https://github.com/kipyegonline/savon)
 
-- `build/server`
-- `build/client`
+# Architecture
 
-## Styling
+The frontented part of the application is built using _remix js_, react metaframework and the backend is a minimal laravel REST API found here [backend](https://savon.finwit.co/api). Typescript is used for the development of react components and type safety
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+### data fetching
+
+Data is done using react query and axios
+
+### Styling
+
+Styling is done using Tailwind css and css3
+
+#### UI library
+
+Mantine UI, react UI library,us to develop the UI
+
+### Testing
+
+Testing and typeching can be carried out by running
+
+` npm run lint` and `npm run typecheck` to check Typescript.
+
+### Error logging
+
+the app uses sentry to track and monitor app health performance. Google analytics to monitor app traffic.
+
+### REST API
+
+the app is design based on REST principles, endpoints can be added to [ [backend](https://savon.finwit.co/api)] using http to fetch resources such as `users`, `albums` and `photos`
