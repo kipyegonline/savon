@@ -20,6 +20,7 @@ import AppModal from "components/AppModal";
 import SavonBreadCrumb from "components/beadcrumb";
 import NavBar from "components/NabBar";
 import NotLoggedIn from "components/NotLoggedIn";
+import SocialMediaShare from "components/SocialMediaShare";
 import { BASE_URL } from "config";
 
 import React from "react";
@@ -145,10 +146,16 @@ const CardPhoto = ({
       >
         Edit {photo.title}
       </Button>
-      <Flex justify={{ base: "flex-start", md: "flex-end" }} pt="md">
+      <Flex
+        justify="justify-between"
+        pt="md"
+        gap="md"
+        direction={{ base: "column", md: "row" }}
+      >
         <Link to="/home" className="text-blue-600">
           Return to home page
         </Link>
+        <SocialMediaShare title={photo.title} />
       </Flex>
     </Card>
   );

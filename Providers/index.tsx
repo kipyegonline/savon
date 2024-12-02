@@ -7,6 +7,7 @@ import React from "react";
 import { generateColors } from "@mantine/colors-generator";
 import Colors from "../config/Colors";
 import SavonAppProvider from "./appProvider";
+import ErrorBoundary from "./ErrorBoundary";
 
 type Props = {
   children: React.ReactNode;
@@ -19,11 +20,15 @@ const theme = createTheme({
   headings: { fontFamily: "'Poppins'" },
 });
 
+// mother of all providers
+
 export default function AppProviders({ children }: Props) {
   return (
     <SavonAppProvider>
       <QueryClientProvider client={client}>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <ErrorBoundary>{children}</ErrorBoundary>
+        </MantineProvider>
       </QueryClientProvider>
     </SavonAppProvider>
   );

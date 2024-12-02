@@ -1,5 +1,6 @@
-import { Card, Flex, Image, Text } from "@mantine/core";
+import { Card, Flex, Image, Text, Box } from "@mantine/core";
 import { useNavigate } from "@remix-run/react";
+import SocialMediaShare from "./SocialMediaShare";
 type Photo = { id: number; title: string };
 export default function UserPhotos({ photos }: { photos: Photo[] }) {
   return (
@@ -40,6 +41,9 @@ const UserPhoto = ({ photo }: { photo: Photo }) => {
       <Text className="absolute bottom-2 !capitalize text-center left-[20%] py-2 !text-white  font-bold !text-2xl">
         {photo.title}
       </Text>
+      <Box className="absolute top-4 right-2 mt-2 mr-2">
+        <SocialMediaShare title={photo.title} />
+      </Box>
     </Card>
   );
 };

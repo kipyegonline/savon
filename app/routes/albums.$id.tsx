@@ -57,9 +57,7 @@ export default function AlbumPage() {
         <AddPhoto onClose={handleModalClosure} id={id ?? ""} />
       </AppModal>
       <NavBar isHome={false} />
-      <Box>
-        <p>You can only edit a photo you added</p>
-      </Box>
+
       <Flex
         direction={{ base: "column", md: "row" }}
         justify="space-between"

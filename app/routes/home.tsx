@@ -12,6 +12,7 @@ import { useAppContext } from "Providers/appProvider";
 import React from "react";
 
 import type { MetaFunction } from "@remix-run/node";
+
 export const meta: MetaFunction = () => {
   return [
     {
