@@ -70,6 +70,7 @@ const LoginButton = () => {
   };
   return (
     <Box className=" o">
+
       <Button
         bg="accent"
         className=" rounded-2xl w-40 h-28 "
@@ -77,7 +78,7 @@ const LoginButton = () => {
         onClick={handlelogin}
       >
         Sign in
-      </Button>
+
     </Box>
   );
 };
