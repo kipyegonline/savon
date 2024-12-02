@@ -8,7 +8,17 @@ The frontend can be accessed at [Savon frontend](https://savon-one.vercel.app/) 
 
 Clone the project from Github
 
-`git clone https://github.com/kipyegonline/savon`
+```sh
+git clone https://github.com/kipyegonline/savon
+
+```
+
+Install the project dependencies
+
+```
+npm install
+
+```
 
 ## Development
 
@@ -50,11 +60,19 @@ Data is done using react query and axios
 
 ### Styling
 
-Styling is done using Tailwind css and css3
+Styling is done using Tailwind css and vanilla CSS. The app also uses [Mantine Ui](https://mantine.dev) responsive design system and hooks heavily for app development
 
 #### UI library
 
 Mantine UI, react UI library,us to develop the UI
+
+## Authentication
+
+The app relies on laravel sanctum to authenticate and authorize users, Other authentication providers will be added in due course. feel free to open a PR to add an auth provider
+
+### Note on photos
+
+The project stores the image metadata (title and date of addition) in the server but uses only on image for purposes of deadline and project requirement, you can edit the image title and the info will be saved . However an image upload system can be created.
 
 ### Testing
 
@@ -69,3 +87,7 @@ the app uses sentry to track and monitor app health performance. Google analytic
 ### REST API
 
 the app is design based on REST principles, endpoints can be added to [ [backend](https://savon.finwit.co/api)] using http to fetch resources such as `users`, `albums` and `photos`
+
+## How it works
+
+Sign up for an account, add albums then attacvh photos to your albums, then share your pictures to the world

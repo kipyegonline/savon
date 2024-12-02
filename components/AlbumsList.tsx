@@ -1,4 +1,6 @@
 import { List, ListItem, Box, Title } from "@mantine/core";
+import { Link } from "@remix-run/react";
+import { ExternalLink } from "lucide-react";
 
 import { Album } from "types";
 
@@ -18,8 +20,11 @@ export default function AlbumsList({
       <List spacing={"md"} withPadding>
         {albums.map((album, i) => (
           <ListItem key={album.id}>
-            {" "}
-            {i + 1}. {"  "} {album.title}
+            <Link to={`/albums/${album.id}`}>
+              {" "}
+              <span className="mr-2">{i + 1}.</span> {"  "} {album.title}{" "}
+              <ExternalLink size={14} className="inline-block ml-2" />
+            </Link>
           </ListItem>
         ))}
       </List>

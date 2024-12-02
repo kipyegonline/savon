@@ -11,6 +11,19 @@ import { BASE_URL } from "config";
 import { useAppContext } from "Providers/appProvider";
 import React from "react";
 
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    {
+      title: "Savon |Home",
+    },
+    {
+      name: "description",
+      content: ` savon | welcome to savon where pictures meet users`,
+    },
+  ];
+};
 export default function Home() {
   const { user } = useAppContext();
   const [id, setId] = React.useState(user?.user?.id ?? 0);
@@ -23,6 +36,7 @@ export default function Home() {
     isLoading: usersLoading,
     isError,
   } = useQuery({ queryKey: ["users"], queryFn: () => fetchPayload(usersurl) });
+
   //user albums
   const {
     data: albums,
@@ -46,7 +60,7 @@ export default function Home() {
     <Container className="min-h-screen bg-secondary" size="lg">
       <NavBar isHome />
       <NotLoggedIn />
-      <Grid mt="lg" align="center">
+      <Grid mt="lg" pt="lg">
         {/*fetch users*/}
         <Grid.Col span={{ base: 12, md: 8 }}>
           {" "}

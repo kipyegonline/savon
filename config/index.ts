@@ -24,7 +24,7 @@ export const submitPayload = async (
 ) => {
   try {
     const response = await axios.post(url, payload);
-    console.log(response);
+
     return response.data;
   } catch (error) {
     if (error instanceof Error) return null;

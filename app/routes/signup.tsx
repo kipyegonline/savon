@@ -106,7 +106,7 @@ export default function SavonLogin() {
       >
         <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <Text py="md" fw="bold">
-            Create Savon account
+            Create Savon account, join the fun
           </Text>
 
           <Flex direction="column" rowGap={"md"}>
