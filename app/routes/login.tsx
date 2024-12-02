@@ -32,15 +32,19 @@ export const meta: MetaFunction = () => {
   ];
 };
 type LoginValues = { email: string; password: string };
-
+type NextState = { error: string } | { success: string };
 const defaultState = { success: "", error: "" };
 export default function SavonLogin() {
   const [show, setShow] = React.useState(false);
   const [status, setStatus] = React.useState(defaultState);
+
   const url = BASE_URL + "/login";
   const navigate = useNavigate();
   const { _setUser, user } = useAppContext();
 
+  const confirmStatus = (nextState: NextState) => {
+    setStatus({ ...defaultState, ...nextState });
+  };
   // tunajenga form na hii method
   const form = useForm<LoginValues>({
     mode: "uncontrolled",
@@ -66,15 +70,9 @@ export default function SavonLogin() {
     data,
   } = useMutation({
     mutationFn: async (values: LoginValues) => await submitPayload(url, values),
-    onSuccess: () => {
-      setStatus({ ...status, success: "account created successfully" });
-      setTimeout(() => {
-        setStatus(defaultState);
-      }, 3000);
-      form.reset(), form.clearErrors();
-    },
+    onSuccess: () => {},
     onError: () => {
-      setStatus({ ...status, error: "something went wrong" });
+      confirmStatus({ error: "something went wrong" });
       setTimeout(() => setStatus(defaultState), 3000);
     },
   });
@@ -95,12 +93,15 @@ export default function SavonLogin() {
   }, []);
   React.useEffect(() => {
     // WE LISTEN FOR DATA CHANGES, NIMECHOKA MAHN
+
     if (data) {
       if ("message" in data) {
-        setStatus({ ...status, error: data.message });
+        confirmStatus({ error: data.message });
+
         setTimeout(() => setStatus(defaultState), 3000);
       } else {
         // SEND TO APP CONTEXT
+        form.reset(), form.clearErrors();
         _setUser(data as IUser);
         navigate("/home");
       }
@@ -150,18 +151,10 @@ export default function SavonLogin() {
 
               {/** show user notifications */}
               {status.success && (
-                <SavonNotification
-                  success={true}
-                  message={"login successfull"}
-                />
+                <SavonNotification success={true} message={status.success} />
               )}
               {status.error && (
-                <SavonNotification
-                  success={true}
-                  message={
-                    "Someething went wrong while logging you in, try again later..."
-                  }
-                />
+                <SavonNotification success={!true} message={status.error} />
               )}
             </Flex>
 

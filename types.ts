@@ -13,4 +13,6 @@ export interface IUser {
 export interface Album {
   id: number;
   title: string;
+
+  user_id: number;
 }

@@ -59,6 +59,7 @@ export const Userstable = ({
                 target="_blank"
                 className="text-blue-700 capitalize text-base"
                 rel="noreferrer"
+                title="see user info"
               >
                 {user.username}{" "}
                 <ExternalLink size={14} className="inline-block ml-s" />

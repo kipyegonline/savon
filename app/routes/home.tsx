@@ -60,7 +60,7 @@ export default function Home() {
     <Container className="min-h-screen bg-secondary" size="lg">
       <NavBar isHome />
       <NotLoggedIn />
-      <Grid mt="lg" pt="lg">
+      <Grid my="lg" py="lg">
         {/*fetch users*/}
         <Grid.Col span={{ base: 12, md: 8 }}>
           {" "}

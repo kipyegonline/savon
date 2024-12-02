@@ -19,7 +19,7 @@ export default function Footer() {
   const styles =
     "hover:text-secondary transform scale-1.2 transition-all duration-300 ease";
   return (
-    <Box p="md" className="bg-secondary">
+    <Box p="md" className="bg-accent text-white">
       <SimpleGrid cols={{ base: 1, md: 3 }} p="lg">
         <Box className="flex flex-row  border-red-500 items-center">
           <Box>
@@ -62,7 +62,11 @@ export default function Footer() {
           </List>
         </Center>
       </SimpleGrid>
-      <Flex justify="center" align="center" className="bg-primary py-2">
+      <Flex
+        justify="center"
+        align="center"
+        className="bg-primary text-black py-2"
+      >
         <Text> &copy; {new Date().getFullYear()} All Rights reserved </Text>
       </Flex>
     </Box>

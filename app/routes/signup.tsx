@@ -51,7 +51,10 @@ export default function SavonLogin() {
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: async (values: FormValues) => await submitPayload(url, values),
     onSuccess: () => {
-      setStatus({ ...status, success: "account created successfully" });
+      setStatus({
+        ...status,
+        success: "account created successfully, redirecting shortly",
+      });
       setTimeout(() => {
         setStatus(defaultState), navigate("/login");
       }, 3000);

@@ -10,7 +10,7 @@ import {
   Center,
 } from "@mantine/core";
 import type { MetaFunction } from "@remix-run/node";
-import { Link, useParams } from "@remix-run/react";
+import { Link, useParams, useSearchParams } from "@remix-run/react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPayload } from "api";
 import AddPhoto from "components/AddPhoto";
@@ -22,6 +22,7 @@ import NavBar from "components/NabBar";
 import NotLoggedIn from "components/NotLoggedIn";
 import SocialMediaShare from "components/SocialMediaShare";
 import { BASE_URL } from "config";
+import { useAppContext } from "Providers/appProvider";
 
 import React from "react";
 export const meta: MetaFunction = () => {
@@ -40,6 +41,10 @@ type PhotoProps = { title: string; id: number };
 export default function Photopage() {
   const [showModal, setShow] = React.useState(false);
   const { id } = useParams();
+  const [search, setSerarch] = useSearchParams();
+  const { user } = useAppContext();
+
+  const AlbumUserId = search.get("q");
 
   // get users photos
 
@@ -61,8 +66,15 @@ export default function Photopage() {
   const handleModalClosure = () => {
     refetch();
     setShow(false);
+    console.info(setSerarch);
   };
-
+  const checkUser = () => {
+    if (AlbumUserId) {
+      return +AlbumUserId === user?.user?.id;
+    }
+    return false;
+  };
+  const canEdit = checkUser();
   return (
     <Container p="lg" pt="lg" size="lg">
       {/**Add photo modal */}
@@ -82,12 +94,14 @@ export default function Photopage() {
           breadcrumbs={[{ url: `/albums/${id ?? 0}`, link: "Return Albums" }]}
         />
 
-        <Button
-          className="!bg-accent !text-white"
-          onClick={() => setShow(true)}
-        >
-          Add Image
-        </Button>
+        {canEdit ? (
+          <Button
+            className="!bg-accent !text-white"
+            onClick={() => setShow(true)}
+          >
+            Add Image
+          </Button>
+        ) : null}
       </Flex>
 
       <NotLoggedIn />
@@ -106,7 +120,11 @@ export default function Photopage() {
 
         {photo && (
           <Center>
-            <CardPhoto photo={photo} openModal={() => setShow(true)} />
+            <CardPhoto
+              photo={photo}
+              openModal={() => setShow(true)}
+              canEdit={canEdit}
+            />
           </Center>
         )}
       </Box>
@@ -116,9 +134,11 @@ export default function Photopage() {
 const CardPhoto = ({
   photo,
   openModal,
+  canEdit,
 }: {
   photo: PhotoProps;
   openModal: () => void;
+  canEdit: boolean;
 }) => {
   return (
     <Card
@@ -137,15 +157,21 @@ const CardPhoto = ({
       <Text className="absolute bottom-2 !capitalize text-center left-[20%] py-2 !text-white  font-bold !text-2xl">
         {photo.title}
       </Text>
-      <Button
-        onClick={openModal}
-        className="!bg-accent !text-white"
-        fullWidth
-        px="lg"
-        mt="lg"
-      >
-        Edit {photo.title}
-      </Button>
+      {canEdit ? (
+        <Button
+          onClick={openModal}
+          className="!bg-accent !text-white"
+          fullWidth
+          px="lg"
+          mt="lg"
+        >
+          Edit {photo.title}
+        </Button>
+      ) : (
+        <p className="py-2 text-lg">
+          You cannot edit this image as it is not in your album
+        </p>
+      )}
       <Flex
         justify="justify-between"
         pt="md"
