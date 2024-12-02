@@ -5,6 +5,8 @@ import ActionCards from "components/ActionCards";
 import Hero from "components/hero";
 import NavBar from "components/NabBar";
 import data from "config/data";
+import { useAppContext } from "Providers/appProvider";
+import React from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -16,6 +18,12 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { user } = useAppContext();
+  //const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (user) location.pathname = "/home";
+  }, []);
   return (
     <>
       <BackgroundImage

@@ -9,7 +9,7 @@ import {
   PasswordInput,
 } from "@mantine/core";
 import { useForm, isEmail } from "@mantine/form";
-import type { MetaFunction } from "@remix-run/node";
+
 import { Link, useNavigate } from "@remix-run/react";
 import NavBar from "components/NabBar";
 import { ExternalLinkIcon } from "lucide-react";
@@ -19,6 +19,7 @@ import { BASE_URL, submitPayload } from "config";
 import { SavonNotification } from "components/notification";
 import { useAppContext } from "Providers/appProvider";
 import { IUser } from "types";
+import type { MetaFunction } from "@remix-run/node";
 export const meta: MetaFunction = () => {
   return [
     {

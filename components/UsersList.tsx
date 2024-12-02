@@ -61,7 +61,7 @@ export const Userstable = ({
                 rel="noreferrer"
               >
                 {user.username}{" "}
-                <ExternalLink size={14} className="inline-block" />
+                <ExternalLink size={14} className="inline-block ml-s" />
               </Link>{" "}
             </Table.Td>
             <Table.Td>

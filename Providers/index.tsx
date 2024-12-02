@@ -16,6 +16,7 @@ const theme = createTheme({
   fontFamily: "'Poppins'",
   primaryColor: "savon",
   colors: { savon: generateColors(Colors.light.primary) },
+  headings: { fontFamily: "'Poppins'" },
 });
 
 export default function AppProviders({ children }: Props) {

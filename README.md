@@ -56,6 +56,14 @@ Styling is done using Tailwind css and css3
 
 Mantine UI, react UI library,us to develop the UI
 
+## Authentication
+
+The app relies on laravel sanctum to authenticate and authorize users, Other authentication providers will be added in due course. feel free to open a PR to add an auth provider
+
+### Note on photos
+
+The project stores the image metadata (title and date of addition) in the server but uses only on image for purposes of deadline and project requirement, you can edit the image title and the info will be saved . However an image upload system can be created.
+
 ### Testing
 
 Testing and typeching can be carried out by running
