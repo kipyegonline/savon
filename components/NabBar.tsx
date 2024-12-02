@@ -71,7 +71,7 @@ const LoginButton = () => {
   return (
     <Box className=" o">
       <Button className=" rounded-2xl " px="lg" onClick={handlelogin}>
-        Sign in
+        Sign up
       </Button>
     </Box>
   );
