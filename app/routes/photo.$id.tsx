@@ -143,9 +143,11 @@ const CardPhoto = ({
   return (
     <Card
       miw={{ base: "100%", md: 400 }}
-      h={{ base: 200, md: 400 }}
-      className="border-red relative cursor-pointer"
+      h={{ base: "auto", md: 400 }}
+      className="border-red relative cursor-pointer mx-auto"
       withBorder
+      py="lg"
+      my="lg"
     >
       <Image
         src="/tanja-cotoaga-0L05c7TSCME-unsplash.jpg"
@@ -172,17 +174,19 @@ const CardPhoto = ({
           You cannot edit this image as it is not in your album
         </p>
       )}
-      <Flex
-        justify="justify-between"
-        pt="md"
-        gap="md"
-        direction={{ base: "column", md: "row" }}
-      >
-        <Link to="/home" className="text-blue-600">
-          Return to home page
-        </Link>
-        <SocialMediaShare title={photo.title} />
-      </Flex>
+      <Box>
+        {" "}
+        <Flex
+          justify="justify-between"
+          gap="md"
+          // direction={{ base: "column", md: "row" }}
+        >
+          <Link to="/home" className="text-blue-600">
+            Return to home page
+          </Link>
+          <SocialMediaShare title={photo.title} />
+        </Flex>
+      </Box>
     </Card>
   );
 };
