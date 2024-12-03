@@ -25,6 +25,7 @@ import { BASE_URL } from "config";
 import { useAppContext } from "Providers/appProvider";
 
 import React from "react";
+import { User } from "types";
 export const meta: MetaFunction = () => {
   return [
     {
@@ -46,7 +47,7 @@ export default function Photopage() {
 
   const AlbumUserId = search.get("q");
 
-  // get users photos
+  // get the photo itself
 
   const {
     data: photo,
@@ -62,12 +63,26 @@ export default function Photopage() {
       return fetchPayload(photoUrl);
     },
   });
+  // get the owner of the photo
 
+  const { data: pictureOwner } = useQuery({
+    queryKey: ["user", AlbumUserId],
+    queryFn: (id) => {
+      const { queryKey } = id;
+
+      const photoUrl = BASE_URL + `/users/${queryKey[1]}`;
+      return fetchPayload(photoUrl);
+    },
+  });
+
+  // close modal
   const handleModalClosure = () => {
     refetch();
     setShow(false);
     console.info(setSerarch);
   };
+
+  // check if the logged in user is the same one viewing the picture,so he/she can edit
   const checkUser = () => {
     if (AlbumUserId) {
       return +AlbumUserId === user?.user?.id;
@@ -75,6 +90,7 @@ export default function Photopage() {
     return false;
   };
   const canEdit = checkUser();
+
   return (
     <Container p="lg" pt="lg" size="lg">
       {/**Add photo modal */}
@@ -91,7 +107,9 @@ export default function Photopage() {
         gap="md"
       >
         <SavonBreadCrumb
-          breadcrumbs={[{ url: `/albums/${id ?? 0}`, link: "Return Albums" }]}
+          breadcrumbs={[
+            { url: `/albums/${photo?.album_id ?? 0}`, link: " Albums" },
+          ]}
         />
 
         {canEdit ? (
@@ -124,6 +142,7 @@ export default function Photopage() {
               photo={photo}
               openModal={() => setShow(true)}
               canEdit={canEdit}
+              whoOwns={pictureOwner}
             />
           </Center>
         )}
@@ -135,10 +154,12 @@ const CardPhoto = ({
   photo,
   openModal,
   canEdit,
+  whoOwns,
 }: {
   photo: PhotoProps;
   openModal: () => void;
   canEdit: boolean;
+  whoOwns: User;
 }) => {
   return (
     <Card
@@ -171,10 +192,10 @@ const CardPhoto = ({
         </Button>
       ) : (
         <p className="py-2 text-lg">
-          You cannot edit this image as it is not in your album
+          You cannot edit image uploaded by <WhoOwnsComponent user={whoOwns} />
         </p>
       )}
-      <Box>
+      <Box mt="md">
         {" "}
         <Flex
           justify="justify-between"
@@ -188,5 +209,14 @@ const CardPhoto = ({
         </Flex>
       </Box>
     </Card>
+  );
+};
+
+const WhoOwnsComponent = ({ user }: { user: User }) => {
+  if (!user) return null;
+  return (
+    <Link className="text-blue-600" to={`/users/${user?.id}`}>
+      {user?.username}
+    </Link>
   );
 };

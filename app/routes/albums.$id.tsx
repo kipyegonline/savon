@@ -35,7 +35,6 @@ export default function AlbumPage() {
   const { data: album } = useQuery({
     queryKey: ["album", id],
     queryFn: (id) => {
-      console.log(id, "sheveve");
       const { queryKey } = id;
       const photoUrl = BASE_URL + `/albums?album=${queryKey[1]}`;
       return fetchPayload(photoUrl);
@@ -58,6 +57,7 @@ export default function AlbumPage() {
     },
   });
 
+  // get the userr whose album is being viewed
   const { data: albumUser } = useQuery({
     queryKey: ["user", album?.user_id],
     queryFn: (id) => {
@@ -68,7 +68,7 @@ export default function AlbumPage() {
     },
   });
 
-  // get the user who owns the album
+  // close the modal someone add a picture
   const handleModalClosure = () => {
     refetch();
 
@@ -88,9 +88,7 @@ export default function AlbumPage() {
         justify="space-between"
         mt="lg"
       >
-        <SavonBreadCrumb
-          breadcrumbs={[{ url: "/home", link: "Return Home" }]}
-        />
+        <SavonBreadCrumb breadcrumbs={[{ url: "/home", link: "Home" }]} />
         {album && (
           <AddImageComponent album={album} setShow={() => setShow(true)} />
         )}
@@ -109,11 +107,15 @@ export default function AlbumPage() {
           <Title order={5}>
             There are no photos on the system for the selected {album?.title}{" "}
             album{" "}
-            {albumUser
-              ? `by ${
-                  user?.user?.id == albumUser?.id ? "you" : albumUser?.username
-                }`
-              : ""}
+            <span className="ml-2 text-accent ">
+              {albumUser
+                ? `by ${
+                    user?.user?.id == albumUser?.id
+                      ? "you"
+                      : albumUser?.username
+                  }`
+                : ""}
+            </span>
           </Title>
         )}
 
@@ -123,13 +125,16 @@ export default function AlbumPage() {
               {photos.length} {photos.length === 1 ? "picture" : "pictures"} on
               {"  "}
               {album?.title} album{" "}
-              {albumUser
-                ? `by ${
-                    user?.user?.id == albumUser?.id
-                      ? "you"
-                      : albumUser?.username
-                  }`
-                : ""}
+              <span className="ml-2 text-accent ">
+                {" "}
+                {albumUser
+                  ? `by ${
+                      user?.user?.id == albumUser?.id
+                        ? "you"
+                        : albumUser?.username
+                    }`
+                  : ""}
+              </span>
             </p>
             <UserPhotos photos={photos} album={album} />
           </Box>
