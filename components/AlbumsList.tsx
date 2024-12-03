@@ -15,7 +15,7 @@ export default function AlbumsList({
     <Box>
       <Title py="md" order={3}>
         {iam ? "Your " : ""}
-        {albums.length} albums returned
+        {albums.length} albums
       </Title>
       <List spacing={"md"} withPadding>
         {albums.map((album, i) => (
