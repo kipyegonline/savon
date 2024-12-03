@@ -9,7 +9,7 @@ export default function NotLoggedIn() {
   React.useEffect(() => {
     setTimeout(() => {
       if (user === null) navigate("/login");
-    }, 3000);
+    }, 1000);
   }, [user]);
 
   if (user === null) return null;
