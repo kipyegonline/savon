@@ -56,10 +56,18 @@ export default function Home() {
     setId(id);
   };
   const loggedIn = id === user?.user?.id;
+  // if not logged in
+  if (user === null)
+    return (
+      <Box className="min-h-screen flex items-center justify-center">
+        {" "}
+        <NotLoggedIn /> <AppLoader message="Opening page..." />
+      </Box>
+    );
   return (
     <Container className="min-h-screen bg-secondary" size="lg">
       <NavBar isHome />
-      <NotLoggedIn />
+
       <Grid my="lg" py="lg">
         {/*fetch users*/}
         <Grid.Col span={{ base: 12, md: 8 }}>

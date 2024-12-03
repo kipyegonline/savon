@@ -19,7 +19,7 @@ export default function Footer() {
   const styles =
     "hover:text-secondary transform scale-1.2 transition-all duration-300 ease";
   return (
-    <Box p="md" className="bg-accent text-white">
+    <Box p="xl" className="bg-accent text-white">
       <SimpleGrid cols={{ base: 1, md: 3 }} p="lg">
         <Box className="flex flex-row  border-red-500 items-center">
           <Box>
