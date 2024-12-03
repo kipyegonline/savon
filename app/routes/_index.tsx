@@ -29,7 +29,7 @@ export default function Index() {
         className=""
         src="./tanja-cotoaga-0L05c7TSCME-unsplash.jpg"
       >
-        <Container className="" size="lg" pb="lg">
+        <Container className="" size="lg" pb="xl">
           {/**nav bar */}
           <NavBar isHome />
 

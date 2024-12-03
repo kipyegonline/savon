@@ -35,11 +35,12 @@ export const Userstable = ({
   id,
 }: UsersListProps & { clickedUser: (id: number) => void }) => {
   return (
-    <Table>
+    <Table id="users">
       <Table.Thead>
         <Table.Tr>
           <Table.Th>#</Table.Th>
-          <Table.Th>User</Table.Th>
+          <Table.Th>Name</Table.Th>
+          <Table.Th>Profile</Table.Th>
           <Table.Th> albums</Table.Th>
         </Table.Tr>
       </Table.Thead>
@@ -52,6 +53,7 @@ export const Userstable = ({
             }}
           >
             <Table.Td>{i + 1}.</Table.Td>
+            <Table.Td> {user.username} </Table.Td>
             <Table.Td>
               {" "}
               <Link
@@ -61,7 +63,7 @@ export const Userstable = ({
                 rel="noreferrer"
                 title="see user info"
               >
-                {user.username}{" "}
+                View profile
                 <ExternalLink size={14} className="inline-block ml-s" />
               </Link>{" "}
             </Table.Td>

@@ -12,7 +12,7 @@ export default function AlbumsList({
   iam: boolean;
 }) {
   return (
-    <Box>
+    <Box id="albums">
       <Title py="md" order={3}>
         {iam ? "Your " : ""}
         {albums.length} albums

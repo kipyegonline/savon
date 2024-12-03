@@ -102,11 +102,13 @@ const InsideMenu = () => {
       mutate({ title: name, user_id: user?.user?.id + "" });
     }
   };
-
+  const path = globalThis?.window?.location?.pathname == "/";
   if (user == null) return null;
   return (
     <Flex gap="lg" align={"center"} direction={{ base: "column", md: "row" }}>
-      <Title order={3}>Welcome {user?.user?.username}</Title>
+      <Title display={path ? "none" : "block"} order={3}>
+        Welcome {user?.user?.username}
+      </Title>
       <Button
         className="text-white !bg-accent !w-full md:!w-40 "
         onClick={addAlbum}

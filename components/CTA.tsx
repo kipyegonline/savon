@@ -6,11 +6,11 @@ export default function CTA() {
   const { user } = useAppContext();
   const navigate = useNavigate();
   const handleClick = () => {
-    if (user) navigate("/home");
+    if (user) navigate("/home#albums");
     else navigate("/signup");
   };
   const handleOutline = () => {
-    if (user) navigate("/home");
+    if (user) navigate("/home#users");
     else navigate("/login");
   };
   return (
@@ -21,7 +21,7 @@ export default function CTA() {
             {user ? "View my albums" : " Get Started"}
           </Button>
           <Button bg="accent" fullWidth onClick={handleOutline}>
-            {user ? "see what friends are sharing" : " Login"}
+            {user ? "See what friends are sharing" : " Login"}
           </Button>
         </Box>
       </Flex>
