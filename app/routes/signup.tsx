@@ -56,12 +56,7 @@ export default function SavonLogin() {
     });
   };
   // do the actual sign up
-  const {
-    mutate,
-    isPending: isLoading,
-
-    data: resp,
-  } = useMutation({
+  const { mutate, isPending: isLoading } = useMutation({
     mutationFn: async (values: FormValues) => await submitPayload(url, values),
     onSuccess: () => {
       UpdateState({
@@ -78,24 +73,6 @@ export default function SavonLogin() {
       setTimeout(() => setStatus(defaultState), 3000);
     },
   });
-
-  // we wait to check  if the user has signed up
-  React.useEffect(() => {
-    if (resp) {
-      if ("message" in resp) {
-        UpdateState({ error: resp.message });
-        setTimeout(() => setStatus(defaultState), 3000);
-      } else {
-        UpdateState({
-          success: "account created successfully, redirecting shortly",
-        });
-        setTimeout(() => {
-          //setStatus(defaultState), navigate("/login");
-        }, 3000);
-        // form.reset(), form.clearErrors();
-      }
-    }
-  }, [resp]);
 
   // build the form
   const form = useForm<FormValues>({
