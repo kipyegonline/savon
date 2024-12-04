@@ -32,8 +32,9 @@ export const meta: MetaFunction = () => {
   ];
 };
 type LoginValues = { email: string; password: string };
-type NextState = { error: string } | { success: string };
-const defaultState = { success: "", error: "" };
+type DefaultState = { success: string; error: string };
+
+const defaultState: DefaultState = { success: "", error: "" };
 export default function SavonLogin() {
   const [show, setShow] = React.useState(false);
   const [status, setStatus] = React.useState(defaultState);
@@ -42,7 +43,7 @@ export default function SavonLogin() {
   const navigate = useNavigate();
   const { _setUser, user } = useAppContext();
 
-  const confirmStatus = (nextState: NextState) => {
+  const confirmStatus = (nextState: Partial<DefaultState>) => {
     setStatus({ ...defaultState, ...nextState });
   };
   // tunajenga form na hii method

@@ -37,8 +37,9 @@ export const meta: MetaFunction = () => {
     },
   ];
 };
+type DefaultState = { success: string; error: string };
 
-const defaultState = { success: "", error: "" };
+const defaultState: DefaultState = { success: "", error: "" };
 
 export default function SavonLogin() {
   const url = BASE_URL + "/users";
@@ -47,12 +48,18 @@ export default function SavonLogin() {
   const [status, setStatus] = React.useState(defaultState); // ui feedback
 
   const navigate = useNavigate();
+  // function user feedback
+  const UpdateState = (nextState: Partial<DefaultState>) => {
+    setStatus({
+      ...defaultState,
+      ...nextState,
+    });
+  };
   // do the actual sign up
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: async (values: FormValues) => await submitPayload(url, values),
     onSuccess: () => {
-      setStatus({
-        ...status,
+      UpdateState({
         success: "account created successfully, redirecting shortly",
       });
       setTimeout(() => {
@@ -61,7 +68,7 @@ export default function SavonLogin() {
       form.reset(), form.clearErrors();
     },
     onError: () => {
-      setStatus({ ...status, error: "something went wrong" });
+      UpdateState({ error: "something went wrong" });
       setTimeout(() => setStatus(defaultState), 3000);
     },
   });
