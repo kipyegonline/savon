@@ -56,14 +56,20 @@ export default function SavonLogin() {
     });
   };
   // do the actual sign up
-  const { mutate, isPending: isLoading } = useMutation({
+  const {
+    mutate,
+    isPending: isLoading,
+
+    data: resp,
+  } = useMutation({
     mutationFn: async (values: FormValues) => await submitPayload(url, values),
     onSuccess: () => {
       UpdateState({
         success: "account created successfully, redirecting shortly",
       });
       setTimeout(() => {
-        setStatus(defaultState), navigate("/login");
+        setStatus(defaultState);
+        navigate("/login");
       }, 3000);
       form.reset(), form.clearErrors();
     },
@@ -72,6 +78,24 @@ export default function SavonLogin() {
       setTimeout(() => setStatus(defaultState), 3000);
     },
   });
+
+  // we wait to check  if the user has signed up
+  React.useEffect(() => {
+    if (resp) {
+      if ("message" in resp) {
+        UpdateState({ error: resp.message });
+        setTimeout(() => setStatus(defaultState), 3000);
+      } else {
+        UpdateState({
+          success: "account created successfully, redirecting shortly",
+        });
+        setTimeout(() => {
+          //setStatus(defaultState), navigate("/login");
+        }, 3000);
+        // form.reset(), form.clearErrors();
+      }
+    }
+  }, [resp]);
 
   // build the form
   const form = useForm<FormValues>({
@@ -84,14 +108,15 @@ export default function SavonLogin() {
     },
 
     validate: {
-      email: isEmail("Invalid email"),
+      email: isEmail("Kindly enter a valid email address"),
+
       password: (value) =>
         value.trim().length < 6
-          ? "Enter a password wit atleast 6 characters"
+          ? "Enter a password with atleast 6 characters"
           : null,
       username: (value) =>
         value.trim().length < 3
-          ? "Enter a username wit atleast 3 characters"
+          ? "Enter a username with atleast 3 characters"
           : null,
       password_confirmation: (value, values) =>
         value.trim() !== values.password ? "Passwords do not match" : null,
@@ -100,6 +125,9 @@ export default function SavonLogin() {
 
   const handleSubmit = async (values: FormValues) => {
     if (form.isValid()) {
+      if (!isEmail(values.email)) {
+        alert("mailerrr");
+      }
       mutate(values);
     }
   };
@@ -132,6 +160,7 @@ export default function SavonLogin() {
               label="Email"
               placeholder="your@email.com"
               key={form.key("email")}
+              error={false}
               {...form.getInputProps("email")}
             />
             <PasswordInput

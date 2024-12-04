@@ -55,7 +55,7 @@ export default function SavonLogin() {
     },
 
     validate: {
-      email: isEmail("Invalid email"),
+      email: isEmail("Kindly enter a valid email address"),
       password: (value) =>
         value.trim().length < 6
           ? "Enter a password wit atleast 6 characters"

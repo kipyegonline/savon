@@ -4,7 +4,7 @@ type Props = { show: boolean; setShow: () => void };
 
 const VisibilityIcon = ({ setShow, show }: Props) => {
   return (
-    <ActionIcon onClick={setShow}>
+    <ActionIcon onClick={setShow} size={"md"}>
       {show ? <EyeClosedIcon color={"black"} /> : <EyeIcon color={"black"} />}
     </ActionIcon>
   );
