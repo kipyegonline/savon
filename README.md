@@ -2,7 +2,7 @@
 
 This is a sleek open source photo sharing and repository for photography enthusiast around Kenya. It is the next big thing embedded with AI.
 
-The frontend can be accessed at [Savon frontend](https://savon-one.vercel.app/) and the REST API available at [Savon](savon.finwit.co/api)
+The frontend can be accessed at [Savon frontend](https://savon-one.vercel.app/) and the REST API available at [Savon](https://savon.lakeviewagc.net/api)
 
 ## Getting started
 
@@ -52,7 +52,7 @@ Report bug and issues to [issues section](https://github.com/kipyegonline/savon)
 
 # Architecture
 
-The frontented part of the application is built using _remix js_, react metaframework and the backend is a minimal laravel REST API found here [backend](https://savon.finwit.co/api). Typescript is used for the development of react components and type safety
+The frontented part of the application is built using _remix js_, react metaframework and the backend is a minimal laravel REST API found here [backend](https://savon.lakeviewagc.net/api). Typescript is used for the development of react components and type safety
 
 ### data fetching
 
@@ -86,7 +86,7 @@ the app uses sentry to track and monitor app health performance. Google analytic
 
 ### REST API
 
-the app is design based on REST principles, endpoints can be added to [ [backend](https://savon.finwit.co/api)] using http to fetch resources such as `users`, `albums` and `photos`
+the app is design based on REST principles, endpoints can be added to [ [backend](https://savon.lakeviewagc.net/api) using http to fetch resources such as `users`, `albums` and `photos`
 
 ## How it works
 
