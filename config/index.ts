@@ -6,7 +6,7 @@ export enum Category {
   Photos = "photos",
 }
 
-export const BASE_URL = "https://savon.finwit.co/api";
+export const BASE_URL = process.env.NODE_ENV !== "production" ? "http://localhost:8000/api":"https://savon.lakeviewagc.net/api" //"https://savon.finwit.co/api";
 
 export const useApi = async (payload: string | Request) => {
   try {
