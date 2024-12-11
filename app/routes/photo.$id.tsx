@@ -95,7 +95,12 @@ export default function Photopage() {
     <Container p="lg" pt="lg" size="lg">
       {/**Add photo modal */}
       <AppModal opened={showModal} onClose={() => setShow(false)}>
-        <AddPhoto onClose={handleModalClosure} id={id ?? ""} edit={true} />
+        <AddPhoto
+          onClose={handleModalClosure}
+          id={id ?? ""}
+          edit={true}
+          title={photo?.title}
+        />
       </AppModal>
 
       <NavBar isHome={false} />
@@ -169,6 +174,7 @@ const CardPhoto = ({
       withBorder
       py="lg"
       my="lg"
+      shadow="md"
     >
       <Image
         src="/tanja-cotoaga-0L05c7TSCME-unsplash.jpg"

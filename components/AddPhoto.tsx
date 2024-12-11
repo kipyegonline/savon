@@ -7,10 +7,20 @@ import { SavonNotification } from "./notification";
 import { updatePhoto } from "api";
 
 type Photo = { title: string; album_id: string };
-type Props = { onClose: () => void; id: string; edit?: boolean };
+type Props = {
+  onClose: () => void;
+  id: string;
+  edit?: boolean;
+  title?: string;
+};
 
 const defaultState = { success: "", error: "" };
-export default function AddPhoto({ onClose, id, edit = false }: Props) {
+export default function AddPhoto({
+  onClose,
+  id,
+  edit = false,
+  title = "",
+}: Props) {
   const url = BASE_URL + "/photos";
   const editUrl = BASE_URL + `/photos/${id}`;
 
@@ -18,7 +28,7 @@ export default function AddPhoto({ onClose, id, edit = false }: Props) {
   const form = useForm<Photo>({
     mode: "uncontrolled",
     initialValues: {
-      title: "",
+      title: title,
       album_id: id,
     },
 
@@ -66,7 +76,7 @@ export default function AddPhoto({ onClose, id, edit = false }: Props) {
           <Box p="md">
             <Text className="bg-accent !text-white !p-4">
               {edit
-                ? "This will change the name of the photo"
+                ? "This will change the title of the photo"
                 : `Please note, this system willonly use one image whose title and
               other info can be updated in the backend.`}
             </Text>
