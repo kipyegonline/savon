@@ -34,7 +34,7 @@ export default function AddPhoto({
 
     validate: {
       title: (value) =>
-        value.trim().length < 3 ? "Please add an image title" : null,
+        value.trim().length < 3 ? "Please add an image title." : null,
     },
   });
 
@@ -49,8 +49,8 @@ export default function AddPhoto({
       setStatus({
         ...status,
         success: edit
-          ? "image Updated Successfully"
-          : "image added  successfully",
+          ? "image updated successfully."
+          : "image added  successfully.",
       });
 
       setTimeout(() => {
@@ -74,9 +74,9 @@ export default function AddPhoto({
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Flex direction={"column"} gap="md">
           <Box p="md">
-            <Text className="bg-accent !text-white !p-4">
+            <Text className="!bg-accent !text-white !p-4">
               {edit
-                ? "This will change the title of the photo"
+                ? `This will change the title of the photo`
                 : `Please note, this system willonly use one image whose title and
               other info can be updated in the backend.`}
             </Text>
@@ -89,7 +89,7 @@ export default function AddPhoto({
             {...form.getInputProps("title")}
           />
           <Button loading={isLoading} type="submit" fullWidth>
-            {edit ? "Update Image title" : " Add Image"}
+            {edit ? "Update image title" : " Add Image"}
           </Button>
 
           {/** show user notifications */}
